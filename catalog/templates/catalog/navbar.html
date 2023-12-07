@@ -1,0 +1,9 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link {% if url == 'main' %}active{% endif %}" href="{% url "catalog:main" %}">Главная</a>
+      <a class="nav-item nav-link {% if url == 'contact_info' %}active{% endif %}" href="{% url "catalog:contact_info" %}">Контакты</a>
+      <a class="nav-item nav-link {% if url == 'contact_form' %}active{% endif %}" href="{% url "catalog:contact_form" %}">Связаться с нами</a>
+    </div>
+  </div>
+</nav>
