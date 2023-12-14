@@ -5,7 +5,6 @@ import os.path
 class Category(models.Model):
     name = models.CharField(verbose_name='Название', max_length=100)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
-    created_at = models.DateField(verbose_name='Дата добавления категории', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Категория'
