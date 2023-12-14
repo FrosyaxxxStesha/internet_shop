@@ -20,7 +20,7 @@ class Product(models.Model):
     preview_image = models.ImageField(verbose_name='Фото товара(превью)',
                                       upload_to=f'{os.path.join("product_preview", "")}',
                                       default='default.svg')
-    category = models.ForeignKey(Category, on_delete='CASCADE')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name='Цена')
     created_at = models.DateField(verbose_name='Дата добавления товара', auto_now_add=True)
     updated_at = models.DateField(verbose_name='Дата обновления товара', auto_now=True)
