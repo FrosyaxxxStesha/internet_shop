@@ -537,7 +537,7 @@
     "fields": {
       "name": "ноутбук",
       "description": "Подходит для игр и учёбы",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/default.svg",
       "category": 3,
       "price": 80000,
       "created_at": "2023-12-16",
@@ -550,7 +550,7 @@
     "fields": {
       "name": "Телефон",
       "description": "Общайтесь, не ограничивая себя в четырёх стенах",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/default.svg",
       "category": 2,
       "price": 40000,
       "created_at": "2023-12-16",
@@ -563,7 +563,7 @@
     "fields": {
       "name": "Чайник",
       "description": "Хороший сай - залог успеха",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/Чайник.jpeg",
       "category": 4,
       "price": 5000,
       "created_at": "2023-12-16",
@@ -576,7 +576,7 @@
     "fields": {
       "name": "Смартфон",
       "description": "Как телефон, только умнее",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/default.svg",
       "category": 2,
       "price": 70000,
       "created_at": "2023-12-16",
@@ -589,7 +589,7 @@
     "fields": {
       "name": "Холодильник",
       "description": "Сохранит вашу еду",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/default.svg",
       "category": 4,
       "price": 30000,
       "created_at": "2023-12-16",
@@ -602,7 +602,7 @@
     "fields": {
       "name": "Наушники",
       "description": "Музыка только для вас, даже если вокруг все",
-      "preview_image": "default.svg",
+      "preview_image": "product_preview/default.svg",
       "category": 3,
       "price": 15000,
       "created_at": "2023-12-16",

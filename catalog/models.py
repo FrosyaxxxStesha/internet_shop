@@ -19,13 +19,14 @@ class Product(models.Model):
     description = models.TextField(verbose_name='описание', null=True, blank=True)
     preview_image = models.ImageField(verbose_name='Фото товара(превью)',
                                       upload_to=f'{os.path.join("product_preview", "")}',
-                                      default='default.svg')
+                                      default='product_preview/default.svg')
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name='Цена')
     created_at = models.DateField(verbose_name='Дата добавления товара', auto_now_add=True)
     updated_at = models.DateField(verbose_name='Дата обновления товара', auto_now=True)
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 

@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from catalog.models import Product
 
 
 def main(request):
     url_name = 'main'
-    return render(request, 'catalog/main.html', {'url_name': url_name})
+    products = Product.objects.all()[:5]
+    return render(request, 'catalog/main.html', {'url_name': url_name, 'products': products})
 
 
 def contact_info(request):
