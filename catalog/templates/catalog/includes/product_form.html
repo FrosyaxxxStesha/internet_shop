@@ -16,7 +16,7 @@
 
                 <h5 class="card-text m-5">
                     <strong>{{ field.label_tag }}</strong>
-                    {{ field.errors }}
+                    <span class="text-danger">{{ field.errors }}</span>
                     {{ field }}
                 </h5>
                 {% endfor %}
