@@ -1,0 +1,33 @@
+
+
+
+
+
+<div class="m-5">
+    <div class="mx-auto d-block row" style="width:40rem;">
+        <div class="card text-left ">
+
+
+
+            <div class="card-body">
+                <h1 class="card-title mb-5 mt-2 mx-5">Добавить новый товар</h1>
+                <form method='post' action="{% url "catalog:product_form" %}" novalidate>
+                {% for field in frm %}
+
+                <h5 class="card-text m-5">
+                    <strong>{{ field.label_tag }}</strong>
+                    {{ field.errors }}
+                    {{ field }}
+                </h5>
+                {% endfor %}
+                 {% csrf_token %}
+               <input class="m-5 btn btn-dark" type="submit" value="Добавить товар">
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

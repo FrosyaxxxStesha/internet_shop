@@ -1,0 +1,13 @@
+<nav  class="fixed-bottom navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        {% if page.has_previous %}
+      <a class="nav-item nav-link" href="?page={{ page.previous_page_number }}">Предыдущая страница</a>
+         {% endif %}
+        <a class="nav-item nav-link" href="#">Страница {{ page.number }} of {{ page.paginator.num_pages }}</a>
+{% if page.has_next %}
+      <a class="nav-item nav-link" href="?page={{ page.next_page_number }}">Следующая страница</a>
+         {% endif %}
+    </div>
+  </div>
+</nav>
