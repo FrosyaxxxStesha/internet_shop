@@ -1,9 +1,4 @@
-{% extends 'catalog/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-{% if product is not None %}
 <h1>Товар успешно добавлен!</h1>
-{% else %}
-{% include 'catalog/includes/product_form.html' with frm=form %}
-
-{% endif %}
 {% endblock content %}

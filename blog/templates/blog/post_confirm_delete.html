@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}post.title{% endblock title %}
+{% block content %}
+<div class="m-5">
+<div class="mx-auto d-block row col-8">
+<div class="card text-center" style="min-width:40rem;">
+
+  <form method="post">
+      {% csrf_token %}
+      <h1>Подтвердите действие</h1>
+      <p>Удалить данный пост?</p>
+
+      <input class="mt-5 mb-2 mx-2 btn btn-danger float-right" type="submit" value="Удалить">
+      <a class="mt-5 mb-2 btn btn-warning float-right text-white" href="{% url "blog:post_detail" post.id %}">назад</a>
+
+  </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock content %}

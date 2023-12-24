@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{% if post %}{{ post.title }}{% else %}Создать пост{% endif %}{% endblock title %}
+
+{% block content %}
+<div class="card card-body mx-auto mt-5" style="width:40rem;">
+    <form method="post" enctype="multipart/form-data" novalidate class="mx-auto">
+        {% csrf_token %}
+        {% for field in form %}
+            <h3>{{ field.label_tag }}</h3>
+            <h5>{{ field }}</h5>
+            <p class="text-danger">{{ field.errors }}</p>
+        {% endfor %}
+        <input class="mt-5 btn btn-dark float-right" type="submit" value="Опубликовать">
+    </form>
+</div>
+{% endblock content %}

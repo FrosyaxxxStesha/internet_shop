@@ -1,4 +1,4 @@
-{% extends "catalog/base.html" %}
+{% extends "base.html" %}
 {% load media_template_utils %}
 {% block title %}Главная{% endblock title %}
 {% block content %}
@@ -9,13 +9,13 @@
   {% for product in products %}
 
   <div class="card text-center mb-4" style="width: 18rem;">
-  <img class="card-img-top" src="{{ product.preview_image|mediapath }}" alt="Card image cap">
+  <img class="card-img-top" src="{{ product.preview_image.url }}" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">{{ product.name }}</h5>
-    <p class="card-text" style="height: 40px;">{{ product.description|truncatechars:100 }}</p>
+    <p class="card-text" style="height: 80px;">{{ product.description|truncatechars:100 }}</p>
 
 
-    <a href="{% url "catalog:product_info" product.id %}" class="btn btn-dark">{{ product.price }}</a>
+    <a href="{% url "catalog:product_detail" product.id %}" class="btn btn-dark">{{ product.price }}</a>
 
 
   </div>
@@ -24,5 +24,5 @@
   {% endfor %}
 
 </div>
-{% include 'catalog/includes/pagination.html' with page=products %}
+{% include 'includes/pagination.html' with page=page_obj %}
 {% endblock content %}

@@ -1,6 +1,6 @@
-
-
-
+{% extends "base.html" %}
+{% block title %}Добавить товар{% endblock title %}
+{% block content %}
 
 
 <div class="m-5">
@@ -11,8 +11,8 @@
 
             <div class="card-body">
                 <h1 class="card-title mb-5 mt-2 mx-5">Добавить новый товар</h1>
-                <form method='post' action="{% url "catalog:product_form" %}" novalidate>
-                {% for field in frm %}
+                <form method='post' action="{% url "catalog:product_form" %}" enctype="multipart/form-data" novalidate>
+                {% for field in form %}
 
                 <h5 class="card-text m-5">
                     <strong>{{ field.label_tag }}</strong>
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-
+{% endblock content %}
 
 
 
