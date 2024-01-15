@@ -12,10 +12,21 @@
         <div class="card-body">
     <h1 class="card-title">{{ product.name }}</h1>
     <h5 class="card-text m-5">{% if product.description is not None %}{{ product.description }}{% else %}Нам нечего сказать: это хороший продукт{% endif %}</h5>
-    <a href="#" class="btn btn-dark">Купить: {{ product.price }}</a>
+            <a href="{% url 'catalog:product_update' product.id %}" class="btn btn-warning text-white">изменить</a>
+            <a href="#" class="btn btn-dark">купить: {{ product.price }}</a>
+            <a href="{% url 'catalog:product_delete' product.id %}" class="btn btn-danger">удалить</a>
           <p class="card-text m-1 mt-5 text-secondary text-left">Категория: {{ product.category.name }}</p>
             <p class="card-text m-1 text-secondary text-left">Добавлен: {{ product.created_at }}</p>
             <p class="card-text m-1 text-secondary text-left">Обновлён: {{ product.updated_at }}</p>
+            <p class="card-text m-1 text-secondary text-left">
+                Версия:
+                {% for version in product.versions.all %}
+                    {% if version.current %}
+                         {{ version.number }}, {{ version.name }}
+                    {% endif %}
+                {% endfor %}
+                <a href="{% url "catalog:versions_list" product.id %}">Просмотреть все версии</a>
+            </p>
   </div>
 </div>
 </div>

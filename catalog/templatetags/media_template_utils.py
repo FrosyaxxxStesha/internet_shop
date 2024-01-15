@@ -13,3 +13,14 @@ def mediapath(obj_image_attr):
 def mediapath(obj_image_attr):
     return obj_image_attr.url
 
+
+@register.filter
+def current(versions):
+    if not versions:
+        return None
+
+    for version in versions:
+        if version.current:
+            return version
+
+

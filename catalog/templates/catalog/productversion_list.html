@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Версии{% endblock title %}
+{% block content %}
+
+{% for version in versions %}
+<div style="width: 50rem; height: 3rem;" class="d-flex border rounded mx-auto mt-2 pl-5 pr-5 {% if version.current %}border-success{% endif %}">
+    <p style="display: inline-block;" class="mt-2">название: {{ version.name }}</p>
+    <p style="display: inline-block;" class="ml-5 mt-2">номер: {{ version.number }}</p>
+
+    <a class="text-white pb-1 mt-1 mb-1 btn btn-warning ml-auto" href="{% url 'catalog:version_update' product_pk version.id %}">изменить</a>
+    <a class="btn btn-danger mt-1 mb-1 ml-2" href="{% url 'catalog:version_delete' product_pk version.id %}">удалить</a>
+</div>
+{% endfor %}
+
+<div style="width: 50rem; height: 3rem;" class="d-flex border rounded mx-auto mt-2 pl-5 pr-5">
+    <a href="{% url 'catalog:version_create' product_pk %}" class="mx-auto mt-1 mb-1 btn btn-success text-white">Добавить версию</a>
+</div>
+{% endblock content %}

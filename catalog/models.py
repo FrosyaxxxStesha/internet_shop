@@ -44,3 +44,19 @@ class ContactResponse(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductVersion(models.Model):
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                related_name="versions",
+                                verbose_name="Продукт"
+                                )
+    number = models.PositiveSmallIntegerField(verbose_name="Номер")
+    name = models.CharField(max_length=30, verbose_name="Название")
+    current = models.BooleanField(default=False, verbose_name="Текущая версия")
+
+    class Meta:
+        verbose_name = "Версия продукта"
+        verbose_name_plural = "Версии продуктов"
+        ordering = ["-number"]

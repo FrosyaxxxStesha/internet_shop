@@ -14,6 +14,12 @@
     <h5 class="card-title">{{ product.name }}</h5>
     <p class="card-text" style="height: 80px;">{{ product.description|truncatechars:100 }}</p>
 
+    {% for version in product.versions.all %}
+        {% if version.current %}
+            <p>Версия {{ version.number }}, {{ version.name }}</p>
+        {% endif %}
+    {% endfor %}
+
 
     <a href="{% url "catalog:product_detail" product.id %}" class="btn btn-dark">{{ product.price }}</a>
 

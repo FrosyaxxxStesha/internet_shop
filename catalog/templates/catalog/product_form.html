@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Добавить товар{% endblock title %}
+{% block title %}{% if not product %}Добавить товар{% else %}Обновить товар{% endif %}{% endblock title %}
 {% block content %}
 
 
@@ -10,18 +10,18 @@
 
 
             <div class="card-body">
-                <h1 class="card-title mb-5 mt-2 mx-5">Добавить новый товар</h1>
-                <form method='post' action="{% url "catalog:product_form" %}" enctype="multipart/form-data" novalidate>
+                <h1 class="card-title mb-5 mt-2 mx-5">{% if not product %}Добавить новый товар{% else %}Обновить товар{% endif %}</h1>
+                <form method='post' enctype="multipart/form-data" novalidate>
                 {% for field in form %}
 
                 <h5 class="card-text m-5">
-                    <strong>{{ field.label_tag }}</strong>
+                    {{ field.label_tag }}
                     <span class="text-danger">{{ field.errors }}</span>
                     {{ field }}
                 </h5>
                 {% endfor %}
                  {% csrf_token %}
-               <input class="m-5 btn btn-dark" type="submit" value="Добавить товар">
+               <input class="m-5 btn btn-dark" type="submit" value="{% if not product %}Добавить товар{% else %}Обновить товар{% endif %}">
             </form>
             </div>
         </div>

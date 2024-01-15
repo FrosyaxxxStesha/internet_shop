@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<form method="post" class="border rounded p-3 m-5" style="display: inline-block;">
+    {% csrf_token %}
+    <h1>Удалить?</h1>
+    <p>вы действительно хотите удалить версию "{{ version.number }}, {{ version.name }}"?</p>
+    <a class="btn btn-dark" href="{% url 'catalog:versions_list' product_pk %}">вернуться</a>
+    <input type="submit" value="удалить" class="btn btn-danger">
+</form>
+{% endblock content %}

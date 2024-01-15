@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Успешно!{% endblock title %}
+
+{% block content %}
+<div class="ml-5 mt-5">
+<h1>Успешно!</h1>
+<p>
+    {% if create %}
+        Новая версия успешно добавлена
+    {% elif update %}
+        Версия успешно обновлена
+    {% elif delete %}
+        Версия успешно удалена
+    {% endif %}
+</p>
+    <a class="btn btn-secondary" href="{% url 'catalog:versions_list' product_pk %}">вернуться к версиям</a>
+</div>
+{% endblock content %}
