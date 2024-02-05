@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os.path
+from django.urls import reverse
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+SITE_ID = 2
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
 
     'catalog',
     'blog',
+    'users',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +152,16 @@ PRODUCT_FORBIDDEN_WORDS = (
     "полиция",
     "радар",
 )
+
+AUTH_USER_MODEL = 'users.User'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mikh.tsurkan@gmail.com'
+EMAIL_HOST_PASSWORD = 'sysawdvrtwvsrvxu'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+LOGIN_REDIRECT_URL = 'users:profile'
+LOGOUT_REDIRECT_URL = 'catalog:list'
+LOGIN_URL = 'users:login'
+LOGOUT_URL = 'users:logout'

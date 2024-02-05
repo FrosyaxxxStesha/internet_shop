@@ -1,11 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+  <div class="collapse navbar-collapse px-3" id="navbarNavAltMarkup">
+    <div class="navbar-nav mr-auto">
       <a class="nav-item nav-link {% if url == 'main' %}active{% endif %}" href="{% url "catalog:list" %}">Главная</a>
       <a class="nav-item nav-link {% if url == 'contact_info' %}active{% endif %}" href="{% url "catalog:contact_info" %}">Контакты</a>
+      {% if user.is_authenticated %}
       <a class="nav-item nav-link {% if url == 'contact_form' %}active{% endif %}" href="{% url "catalog:contact_form" %}">Связаться с нами</a>
       <a class="nav-item nav-link {% if url == 'product_form' %}active{% endif %}" href="{% url "catalog:product_create" %}">Добавить товар</a>
       <a class="nav-item nav-link {% if url == 'post_list' %}active{% endif %}" href="{% url "blog:post_list" %}">О новинках</a>
+      {% endif %}
+    </div>
+
+    <div class="mx-auto"></div>
+
+    <div class="navbar-nav px-3">
+      {% if user.is_authenticated %}
+      <a class=" nav-item nav-link {% if url == 'profile' %}active{% endif %}" href="{% url "users:profile" %}">Профиль</a>
+      <a class="nav-item nav-link disabled active">/</a>
+      <a class=" nav-item nav-link {% if url == 'logout' %}active{% endif %}" href="{% url "users:logout_confirm" %}">Выйти</a>
+      {% else %}
+      <a class=" nav-item nav-link {% if url == 'registration' %}active{% endif %}" href="{% url "users:registration" %}">Регистрация</a>
+      <a class="nav-item nav-link disabled active">/</a>
+      <a class=" nav-item nav-link {% if url == 'login' %}active{% endif %}" href="{% url "users:login" %}">Войти</a>
+      {% endif %}
     </div>
   </div>
 </nav>

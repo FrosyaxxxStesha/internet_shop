@@ -1,5 +1,9 @@
 from django.db import models
 import os.path
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -24,6 +28,13 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     created_at = models.DateTimeField(verbose_name='Дата добавления товара', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата обновления товара', auto_now=True)
+    user = models.ForeignKey(User,
+                             verbose_name="Пользователь",
+                             on_delete=models.SET_NULL,
+                             null=True,
+                             blank=True,
+                             related_name="products"
+                             )
 
     class Meta:
         ordering = ['-created_at']

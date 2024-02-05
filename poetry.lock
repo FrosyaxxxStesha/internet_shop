@@ -75,6 +75,20 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-sites"
+version = "0.11"
+description = "Alternative implementation of django sites framework"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-sites-0.11.tar.gz", hash = "sha256:1cbee714fdf2bfbe92e4f5055de4e6c41b64ebb32e1f96b1016c0748210928b8"},
+    {file = "django_sites-0.11-py2-none-any.whl", hash = "sha256:9394577ebdfcc46ab247b29558e5983a39d588878a4c0185d7209e5751dc0d43"},
+]
+
+[package.dependencies]
+django = ">=1.4"
+
+[[package]]
 name = "executing"
 version = "2.0.1"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -424,4 +438,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "9d3c4edeea3d6f6eb254d5621721f6223ebf055a455ba19d464fdf634abfea50"
+content-hash = "b392f2d3628afa63b12b0318c512d7a588575142c95e0d1b2d87d7b3ca9875a3"

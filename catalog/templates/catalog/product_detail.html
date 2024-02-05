@@ -18,6 +18,7 @@
           <p class="card-text m-1 mt-5 text-secondary text-left">Категория: {{ product.category.name }}</p>
             <p class="card-text m-1 text-secondary text-left">Добавлен: {{ product.created_at }}</p>
             <p class="card-text m-1 text-secondary text-left">Обновлён: {{ product.updated_at }}</p>
+            <p class="card-text m-1 text-secondary text-left">Добавил пользователь:{% if product.user is not None %} {{ product.user.email }}{% else %} Удалённый пользователь{% endif %}</p>
             <p class="card-text m-1 text-secondary text-left">
                 Версия:
                 {% for version in product.versions.all %}
