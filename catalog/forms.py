@@ -13,7 +13,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'preview_image', 'category', 'price']
+        fields = ['name', 'description', 'preview_image', 'category', 'price', 'status']
 
     def general_field_cleaner(self, field_name, error_message):
         cleaned_data = self.cleaned_data.get(field_name)

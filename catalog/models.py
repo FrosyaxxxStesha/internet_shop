@@ -1,6 +1,7 @@
 from django.db import models
 import os.path
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -19,6 +20,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    class Status(models.TextChoices):
+        FAILED_MODERATION = "FM", _("Moderation failed")
+        WAITING_MODERATION = "WM", _("Waiting for moderation")
+        PUBLISHED = "PD", _("Published")
+
     name = models.CharField(verbose_name='Название', max_length=100)
     description = models.TextField(verbose_name='описание', null=True, blank=True)
     preview_image = models.ImageField(verbose_name='Фото товара(превью)',
@@ -35,11 +41,23 @@ class Product(models.Model):
                              blank=True,
                              related_name="products"
                              )
+    status = models.CharField(
+        max_length=2,
+        choices=Status,
+        default=Status.WAITING_MODERATION
+    )
 
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+        permissions = [
+            (
+                'can_moderate',
+                'can view moderation and apply decision to public or no'
+            )
+        ]
 
     def __str__(self):
         return self.name

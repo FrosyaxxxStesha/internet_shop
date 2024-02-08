@@ -3,7 +3,7 @@ from catalog.models import Product, ContactResponse, ProductVersion
 from catalog.forms import ProductForm, ContactForm, ProductVersionForm
 from django.views import generic
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 
 class ProductListView(generic.ListView):
@@ -13,6 +13,19 @@ class ProductListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         return super().get_context_data(object_list=object_list) | {'url_name': 'main'}
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            queryset = super().get_queryset().filter(user=self.request.user.id
+                                                     ) | super().get_queryset().filter(status="PD")
+
+            if self.request.user.has_perm('catalog.can_moderate'):
+                queryset = queryset | super().get_queryset().filter(status="WM")
+
+        else:
+            queryset = super().get_queryset().filter(status="PD")
+
+        return queryset
 
 
 class ContactTemplateView(generic.TemplateView):
@@ -39,9 +52,26 @@ class ContactSuccessTemplate(generic.TemplateView):
     template_name = 'catalog/contactsuccess.html'
 
 
-class ProductDetailView(LoginRequiredMixin, generic.DetailView):
+class ProductDetailView(LoginRequiredMixin, UserPassesTestMixin, generic.DetailView):
     model = Product
     context_object_name = 'product'
+
+    def test_func(self):
+        obj = self.model.objects.get(pk=self.kwargs['pk'])
+        return obj.status == "PD" or (self.request.user == obj.user
+                                      or self.request.user.has_perm("catalog.can_moderate"))
+
+    def get_context_data(self, **kwargs):
+        perm_dict = {"can_change": False, "can_delete": False}
+
+        if self.request.user == self.object.user:
+            perm_dict['can_delete'] = True
+            perm_dict['can_change'] = True
+
+        elif self.request.user.has_perm('catalog.can_moderate'):
+            perm_dict['can_change'] = True
+
+        return super().get_context_data(**kwargs) | perm_dict
 
 
 class ProductCreateView(LoginRequiredMixin, generic.CreateView):
@@ -57,14 +87,25 @@ class ProductCreateView(LoginRequiredMixin, generic.CreateView):
         self.object.save()
         return redirect('catalog:product_success')
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        del form.fields['status']
+
+        return form
+
 
 class ProductSuccessAdding(LoginRequiredMixin, generic.TemplateView):
     template_name = 'catalog/product_adding_info.html'
 
 
-class ProductVersionListView(LoginRequiredMixin, generic.ListView):
+class ProductVersionListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     model = ProductVersion
     context_object_name = "versions"
+
+    def test_func(self):
+        obj = Product.objects.get(pk=self.kwargs['product_pk'])
+        return obj.status == "PD" or (self.request.user == obj.user
+                                      or self.request.user.has_perm("catalog.can_moderate"))
 
     def get_queryset(self):
         return super().get_queryset().filter(product_id=self.kwargs.get("product_pk"))
@@ -74,9 +115,13 @@ class ProductVersionListView(LoginRequiredMixin, generic.ListView):
         return super().get_context_data(**kwargs) | context_data
 
 
-class ProductVersionCreateView(LoginRequiredMixin, generic.CreateView):
+class ProductVersionCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ProductVersion
     form_class = ProductVersionForm
+
+    def test_func(self):
+        return (self.request.user == Product.objects.get(pk=self.kwargs['product_pk']).user
+                or self.request.user.has_perm("catalog.can_moderate"))
 
     def get_success_url(self):
         return reverse("catalog:version_create_success", args=[self.kwargs.get("product_pk")])
@@ -108,10 +153,14 @@ class ProductVersionDeleteSuccessTemplateView(LoginRequiredMixin, generic.Templa
         return super().get_context_data(**kwargs) | {"product_pk": self.kwargs.get("product_pk"), "delete": True}
 
 
-class ProductVersionUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ProductVersionUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = ProductVersion
     form_class = ProductVersionForm
     pk_url_kwarg = 'version_pk'
+
+    def test_func(self):
+        return (self.request.user == Product.objects.get(pk=self.kwargs['product_pk']).user
+                or self.request.user.has_perm("catalog.can_moderate"))
 
     def get_success_url(self):
         return reverse("catalog:version_update_success", args=[self.kwargs.get("product_pk")])
@@ -126,10 +175,14 @@ class ProductVersionUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super().get_queryset().filter(product_id=self.kwargs.get("product_pk"))
 
 
-class ProductVersionDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ProductVersionDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = ProductVersion
     context_object_name = "version"
     pk_url_kwarg = 'version_pk'
+
+    def test_func(self):
+        return (self.request.user == Product.objects.get(pk=self.kwargs['product_pk']).user
+                or self.request.user.has_perm("catalog.can_moderate"))
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs) | {"product_pk": self.kwargs.get("product_pk")}
@@ -141,7 +194,7 @@ class ProductVersionDeleteView(LoginRequiredMixin, generic.DeleteView):
         return super().get_queryset().filter(product_id=self.kwargs.get("product_pk"))
 
 
-class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     context_object_name = 'product'
@@ -150,10 +203,25 @@ class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
         product_id = self.kwargs['pk']
         return reverse('catalog:product_detail', kwargs={'pk': product_id})
 
+    def test_func(self):
+        return (self.request.user == self.model.objects.get(pk=self.kwargs['pk']).user or
+                self.request.user.has_perm('catalog.can_moderate'))
 
-class ProductDeleteView(LoginRequiredMixin, generic.DeleteView):
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+
+        if not self.request.user.has_perm('catalog.can_moderate'):
+            del form.fields['status']
+
+        return form
+
+
+class ProductDeleteView(UserPassesTestMixin, LoginRequiredMixin, generic.DeleteView):
     model = Product
     context_object_name = "product"
+
+    def test_func(self):
+        return self.request.user == self.model.objects.get(pk=self.kwargs['pk']).user
 
     def get_success_url(self):
         return reverse('catalog:list')
