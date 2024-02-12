@@ -13,6 +13,8 @@ pillow = "^10.1.0"
 ipython = "^8.18.1"
 pytils = "^0.4.1"
 django-sites = "^0.11"
+redis = "^5.0.1"
+python-dotenv = "^1.0.1"
 
 
 [build-system]

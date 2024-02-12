@@ -11,19 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os.path
-from django.urls import reverse
+import os
+from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SITE_ID = 2
 
+dotenv_path = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dotenv_path)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xnv_2y)^mf@b1hnyn8cm=s$s3f=!)wlsp=yyvs&2ew2bz8))yg'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -155,13 +158,23 @@ PRODUCT_FORBIDDEN_WORDS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mikh.tsurkan@gmail.com'
-EMAIL_HOST_PASSWORD = 'sysawdvrtwvsrvxu'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 
 LOGIN_REDIRECT_URL = 'users:profile'
 LOGOUT_REDIRECT_URL = 'catalog:list'
 LOGIN_URL = 'users:login'
 LOGOUT_URL = 'users:logout'
+
+CACHE_ENABLED = True
+
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379",
+        }
+    }
